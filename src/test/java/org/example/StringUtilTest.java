@@ -153,80 +153,59 @@ public class StringUtilTest {
         assertEquals("quizzes", StringUtil.pluralize("quiz"));
     }
 
-    // ==================== Rule Ordering Bug: matrix/vertex/index ====================
-    // These rules appear AFTER the generic "x" -> "xes" rule in the plural array,
-    // so they are never reached. "matrix" ends with "x", which matches first.
+    // ==================== Specific Word Rules: matrix/vertex/index ====================
 
     @Test
-    void testMatrixRule_ExpectedToFail() {
-        // BUG: "matrix" ends with "x" which matches rule { "x", "xes" } at index 9
-        // before reaching { "matrix", "matrices" } at index 12.
-        // Actual result: "matrixes" instead of "matrices"
-        assertEquals("matrices", StringUtil.pluralize("matrix"),
-            "BUG: 'matrix' rule is shadowed by generic 'x' rule due to ordering");
+    void testMatrixRule() {
+        assertEquals("matrices", StringUtil.pluralize("matrix"));
     }
 
     @Test
-    void testVertexRule_ExpectedToFail() {
-        // BUG: Same ordering issue as matrix
-        assertEquals("vertices", StringUtil.pluralize("vertex"),
-            "BUG: 'vertex' rule is shadowed by generic 'x' rule due to ordering");
+    void testVertexRule() {
+        assertEquals("vertices", StringUtil.pluralize("vertex"));
     }
 
     @Test
-    void testIndexRule_ExpectedToFail() {
-        // BUG: Same ordering issue as matrix
-        assertEquals("indices", StringUtil.pluralize("index"),
-            "BUG: 'index' rule is shadowed by generic 'x' rule due to ordering");
+    void testIndexRule() {
+        assertEquals("indices", StringUtil.pluralize("index"));
     }
 
     // ==================== Y-Rule Tests ====================
-    // BUG: The condition (c2 != 'a' || c2 != 'e' || c2 == 'i' || c2 == 'o' || c2 == 'u')
-    // is always true because (c2 != 'a' || c2 != 'e') is a tautology.
-    // Correct condition should be:
-    //   (c2 != 'a' && c2 != 'e' && c2 != 'i' && c2 != 'o' && c2 != 'u')
 
     @Test
     void testConsonantPlusY() {
         // "quality" -> "qualities" (consonant 't' before 'y')
-        // This happens to work because the buggy condition is always true
         assertEquals("qualities", StringUtil.pluralize("quality"));
     }
 
     @Test
-    void testVowelPlusY_Boy_ExpectedToFail() {
-        // "boy" -> should be "boys" (vowel 'o' before 'y')
-        // BUG: Returns "boies" because the Y-rule condition is always true
-        assertEquals("boys", StringUtil.pluralize("boy"),
-            "BUG: vowel+y words should just append 's', not replace y with ies");
+    void testVowelPlusY_Boy() {
+        // "boy" -> "boys" (vowel 'o' before 'y')
+        assertEquals("boys", StringUtil.pluralize("boy"));
     }
 
     @Test
-    void testVowelPlusY_Day_ExpectedToFail() {
-        // "day" -> should be "days" (vowel 'a' before 'y')
-        assertEquals("days", StringUtil.pluralize("day"),
-            "BUG: 'day' should become 'days', not 'daies'");
+    void testVowelPlusY_Day() {
+        // "day" -> "days" (vowel 'a' before 'y')
+        assertEquals("days", StringUtil.pluralize("day"));
     }
 
     @Test
-    void testVowelPlusY_Key_ExpectedToFail() {
-        // "key" -> should be "keys" (vowel 'e' before 'y')
-        assertEquals("keys", StringUtil.pluralize("key"),
-            "BUG: 'key' should become 'keys', not 'keies'");
+    void testVowelPlusY_Key() {
+        // "key" -> "keys" (vowel 'e' before 'y')
+        assertEquals("keys", StringUtil.pluralize("key"));
     }
 
     @Test
-    void testVowelPlusY_Toy_ExpectedToFail() {
-        // "toy" -> should be "toys"
-        assertEquals("toys", StringUtil.pluralize("toy"),
-            "BUG: 'toy' should become 'toys', not 'toies'");
+    void testVowelPlusY_Toy() {
+        // "toy" -> "toys" (vowel 'o' before 'y')
+        assertEquals("toys", StringUtil.pluralize("toy"));
     }
 
     @Test
-    void testVowelPlusY_Guy_ExpectedToFail() {
-        // "guy" -> should be "guys" (vowel 'u' before 'y')
-        assertEquals("guys", StringUtil.pluralize("guy"),
-            "BUG: 'guy' should become 'guys', not 'guies'");
+    void testVowelPlusY_Guy() {
+        // "guy" -> "guys" (vowel 'u' before 'y')
+        assertEquals("guys", StringUtil.pluralize("guy"));
     }
 
     // ==================== Default Rule (append 's') ====================
