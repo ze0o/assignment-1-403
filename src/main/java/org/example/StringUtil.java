@@ -38,7 +38,7 @@ public class StringUtil {
       char c1 = word.charAt(l - 1);
       char c2 = word.charAt(l - 2);
       if (c1 == 'y' &&
-          (c2 != 'a' || c2 != 'e' || c2 == 'i' || c2 == 'o' || c2 == 'u')) {
+          (c2 != 'a' && c2 != 'e' && c2 != 'i' && c2 != 'o' && c2 != 'u')) {
         return (word.substring(0, l - 1) + "ies");
       }
       return (word + "s");
@@ -55,13 +55,12 @@ public class StringUtil {
       { "o", "oes" },
       { "ium", "ia" },
       { "f", "ves" },
-      { "ox", "oxen" },
-      { "x", "xes" },
-      { "ch", "ches" },
-      { "sh", "shes" },
       { "matrix", "matrices" },
       { "vertex", "vertices" },
       { "index", "indices" },
+      { "x", "xes" },
+      { "ch", "ches" },
+      { "sh", "shes" },
       { "mouse", "mice" },
       { "louse", "lice" },
       { "man", "men" },
@@ -71,6 +70,7 @@ public class StringUtil {
   static final String[][] irregular = {
       { "person", "people" },
       { "child", "children" },
+      { "ox", "oxen" },
   };
 
   static final String[] uncountable = {
